@@ -7,8 +7,9 @@ export const config = {
     url: process.env.NEXTAUTH_URL || "http://localhost:3000",
   },
   ai: {
-    provider: process.env.AI_PROVIDER || "gemini",
-    geminiApiKey: process.env.GEMINI_API_KEY || "",
+    provider: process.env.AI_PROVIDER || "openrouter",
+    apiKey: process.env.OPENROUTER_API_KEY || "",
+    model: process.env.AI_MODEL || "google/gemini-2.0-flash-001",
   },
   tts: {
     provider: process.env.TTS_PROVIDER || "google",

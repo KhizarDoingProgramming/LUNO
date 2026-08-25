@@ -38,36 +38,50 @@ export interface ExerciseData {
   explanation?: string;
 }
 
-export class GeminiProvider implements AIProvider {
+export class OpenRouterProvider implements AIProvider {
   private apiKey: string;
+  private model: string;
 
-  constructor(apiKey: string) {
+  constructor(apiKey: string, model?: string) {
     this.apiKey = apiKey;
+    this.model = model || "google/gemini-2.0-flash-001";
   }
 
   async generateResponse(input: AIInput): Promise<AIOutput> {
     if (!this.apiKey) {
       return {
-        text: "AI provider not configured. Please add your Gemini API key.",
+        text: "AI provider not configured. Please add your OpenRouter API key.",
         confidence: 0,
       };
     }
 
     try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${this.apiKey}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: input.prompt }] }],
-          }),
-        }
-      );
+      const systemPrompt = input.language
+        ? `You are a helpful language tutor teaching ${input.language}. ${input.context || ""}`
+        : input.context || "You are a helpful assistant.";
+
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.apiKey}`,
+          "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+          "X-Title": "LUNO Language Learning",
+        },
+        body: JSON.stringify({
+          model: this.model,
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: input.prompt },
+          ],
+          temperature: 0.7,
+          max_tokens: 1024,
+        }),
+      });
 
       const data = await response.json();
       return {
-        text: data.candidates?.[0]?.content?.parts?.[0]?.text || "",
+        text: data.choices?.[0]?.message?.content || "",
         confidence: 0.8,
       };
     } catch {
@@ -167,11 +181,12 @@ export class MockProvider implements AIProvider {
 
 export function createAIProvider(): AIProvider {
   const provider = process.env.AI_PROVIDER || "mock";
-  const apiKey = process.env.GEMINI_API_KEY || "";
+  const apiKey = process.env.OPENROUTER_API_KEY || "";
+  const model = process.env.AI_MODEL || "google/gemini-2.0-flash-001";
 
   switch (provider) {
-    case "gemini":
-      return new GeminiProvider(apiKey);
+    case "openrouter":
+      return new OpenRouterProvider(apiKey, model);
     default:
       return new MockProvider();
   }
