@@ -58,7 +58,7 @@ const features = [
     icon: Headphones,
     title: "Listen & Repeat",
     description: "Train your ear with native pronunciation.",
-    color: "bg-sky/20 text-navy",
+    color: "bg-sky/20 text-navy dark:text-sky",
   },
   {
     icon: Gamepad2,
@@ -161,7 +161,7 @@ function FloatingWords() {
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
-                  className={`absolute font-[family-name:var(--font-display)] font-bold ${pos.size} text-navy/20`}
+                  className={`absolute font-[family-name:var(--font-display)] font-bold ${pos.size} text-navy/20 dark:text-white/20`}
                   style={{
                     top: pos.top,
                     left: pos.left,
@@ -205,7 +205,7 @@ function FloatingWords() {
             className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
               activeLang === i
                 ? "bg-primary text-white shadow-md shadow-primary/20"
-                : "bg-white text-navy hover:bg-primary/10"
+                : "bg-white dark:bg-slate-800 text-navy dark:text-slate-200 hover:bg-primary/10 dark:hover:bg-white/10"
             }`}
           >
             {l.flag} {l.name}
@@ -256,15 +256,15 @@ function GamificationVisual() {
   return (
     <div className="relative w-full h-80 md:h-[420px] flex items-center justify-center">
       <div className="relative">
-        <div className="w-56 h-[340px] md:w-64 md:h-[400px] bg-navy rounded-[2rem] shadow-2xl shadow-navy/30 p-4 border-4 border-navy-light overflow-hidden">
-          <div className="bg-white rounded-2xl h-full p-4 flex flex-col">
+        <div className="w-56 h-[340px] md:w-64 md:h-[400px] bg-navy dark:bg-slate-800 rounded-[2rem] shadow-2xl shadow-navy/30 p-4 border-4 border-navy-light dark:border-slate-700 overflow-hidden">
+          <div className="bg-white dark:bg-slate-700 rounded-2xl h-full p-4 flex flex-col">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                 <span className="text-sm">🇷🇺</span>
               </div>
               <div className="flex-1">
-                <div className="text-xs font-semibold text-navy">Russian Basics</div>
-                <div className="text-[10px] text-muted">Lesson 3 of 5</div>
+                <div className="text-xs font-semibold text-navy dark:text-white">Russian Basics</div>
+                <div className="text-[10px] text-muted dark:text-slate-400">Lesson 3 of 5</div>
               </div>
               <span className="text-xs font-bold text-primary">+50 XP</span>
             </div>
@@ -283,7 +283,7 @@ function GamificationVisual() {
                   <div className={`text-lg font-bold font-[family-name:var(--font-display)] ${gamificationSteps[step].color}`}>
                     {gamificationSteps[step].value}
                   </div>
-                  <div className="text-xs text-muted mt-1">
+                  <div className="text-xs text-muted dark:text-slate-400 mt-1">
                     {gamificationSteps[step].label}
                   </div>
                 </motion.div>
@@ -292,10 +292,10 @@ function GamificationVisual() {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-muted">Daily Goal</span>
-                <span className="font-semibold text-navy">12/15 min</span>
+                <span className="text-muted dark:text-slate-400">Daily Goal</span>
+                <span className="font-semibold text-navy dark:text-white">12/15 min</span>
               </div>
-              <div className="w-full h-2 bg-surface rounded-full overflow-hidden">
+              <div className="w-full h-2 bg-surface dark:bg-slate-600 rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: "80%" }}
@@ -307,12 +307,12 @@ function GamificationVisual() {
                 <div className="flex items-center gap-1">
                   <Flame className="w-3 h-3 text-streak" />
                   <span className="font-bold text-streak">7</span>
-                  <span className="text-muted">day streak</span>
+                  <span className="text-muted dark:text-slate-400">day streak</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Zap className="w-3 h-3 text-xp" />
                   <span className="font-bold text-xp">350</span>
-                  <span className="text-muted">XP</span>
+                  <span className="text-muted dark:text-slate-400">XP</span>
                 </div>
               </div>
             </div>
@@ -322,13 +322,13 @@ function GamificationVisual() {
         <motion.div
           animate={{ y: [0, -6, 0] }}
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-4 -right-8 bg-white rounded-2xl shadow-lg px-3 py-2 flex items-center gap-2"
+          className="absolute -top-4 -right-8 bg-white dark:bg-slate-700 rounded-2xl shadow-lg px-3 py-2 flex items-center gap-2"
         >
           <div className="w-8 h-8 rounded-full bg-success/10 flex items-center justify-center">
             <span className="text-sm">✅</span>
           </div>
           <div>
-            <div className="text-[10px] font-bold text-navy">Correct!</div>
+            <div className="text-[10px] font-bold text-navy dark:text-white">Correct!</div>
             <div className="text-[10px] text-success">+10 XP</div>
           </div>
         </motion.div>
@@ -336,13 +336,13 @@ function GamificationVisual() {
         <motion.div
           animate={{ y: [0, -4, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute -bottom-2 -left-6 bg-white rounded-2xl shadow-lg px-3 py-2 flex items-center gap-2"
+          className="absolute -bottom-2 -left-6 bg-white dark:bg-slate-700 rounded-2xl shadow-lg px-3 py-2 flex items-center gap-2"
         >
           <div className="w-8 h-8 rounded-full bg-xp/10 flex items-center justify-center">
             <span className="text-sm">🔥</span>
           </div>
           <div>
-            <div className="text-[10px] font-bold text-navy">Streak!</div>
+            <div className="text-[10px] font-bold text-navy dark:text-white">Streak!</div>
             <div className="text-[10px] text-xp">7 days</div>
           </div>
         </motion.div>
@@ -358,7 +358,7 @@ export default function HomePage() {
       <SideNav />
 
       {/* ===== HERO ===== */}
-      <section id="hero" className="scroll-section bg-gradient-to-b from-cloud to-white relative min-h-screen">
+      <section id="hero" className="scroll-section bg-gradient-to-b from-cloud to-white dark:from-slate-900 dark:to-slate-950 relative min-h-screen">
         <div className="absolute inset-0 pattern-dots" />
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-sky/10 rounded-full blur-3xl" />
@@ -374,7 +374,7 @@ export default function HomePage() {
               </ScrollReveal>
 
               <ScrollReveal variant="fade-left" delay={0.1}>
-                <h1 className="font-[family-name:var(--font-display)] text-5xl md:text-6xl lg:text-7xl font-bold text-navy leading-[1.05] tracking-tight mb-6">
+                <h1 className="font-[family-name:var(--font-display)] text-5xl md:text-6xl lg:text-7xl font-bold text-navy dark:text-white leading-[1.05] tracking-tight mb-6">
                   Learn a Language
                   <br />
                   Through{" "}
@@ -383,7 +383,7 @@ export default function HomePage() {
               </ScrollReveal>
 
               <ScrollReveal variant="fade-left" delay={0.2}>
-                <p className="text-lg md:text-xl text-text-light max-w-lg mb-8 leading-relaxed">
+                <p className="text-lg md:text-xl text-text-light dark:text-slate-300 max-w-lg mb-8 leading-relaxed">
                   Master Russian and German with interactive lessons, spaced
                   repetition, and gamified progress.
                 </p>
@@ -404,24 +404,24 @@ export default function HomePage() {
               <ScrollReveal variant="fade-left" delay={0.4}>
                 <div className="flex items-center gap-8">
                   <div>
-                    <div className="font-[family-name:var(--font-display)] text-2xl font-bold text-navy">
+                    <div className="font-[family-name:var(--font-display)] text-2xl font-bold text-navy dark:text-white">
                       <CountUp end={2} />
                     </div>
-                    <div className="text-xs text-muted font-medium">Languages</div>
+                    <div className="text-xs text-muted dark:text-slate-400 font-medium">Languages</div>
                   </div>
-                  <div className="w-px h-8 bg-border" />
+                  <div className="w-px h-8 bg-border dark:bg-white/10" />
                   <div>
-                    <div className="font-[family-name:var(--font-display)] text-2xl font-bold text-navy">
+                    <div className="font-[family-name:var(--font-display)] text-2xl font-bold text-navy dark:text-white">
                       <CountUp end={100} suffix="+" />
                     </div>
-                    <div className="text-xs text-muted font-medium">Lessons</div>
+                    <div className="text-xs text-muted dark:text-slate-400 font-medium">Lessons</div>
                   </div>
-                  <div className="w-px h-8 bg-border" />
+                  <div className="w-px h-8 bg-border dark:bg-white/10" />
                   <div>
-                    <div className="font-[family-name:var(--font-display)] text-2xl font-bold text-navy">
+                    <div className="font-[family-name:var(--font-display)] text-2xl font-bold text-navy dark:text-white">
                       <CountUp end={500} suffix="+" />
                     </div>
-                    <div className="text-xs text-muted font-medium">Exercises</div>
+                    <div className="text-xs text-muted dark:text-slate-400 font-medium">Exercises</div>
                   </div>
                 </div>
               </ScrollReveal>
@@ -435,7 +435,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== LANGUAGES ===== */}
-      <section id="languages" className="scroll-section bg-white relative">
+      <section id="languages" className="scroll-section bg-white dark:bg-slate-950 relative">
         <div className="absolute inset-0 pattern-grid" />
         <div className="scroll-section-content">
           <ScrollReveal variant="fade-up">
@@ -443,12 +443,12 @@ export default function HomePage() {
               <span className="text-sm font-semibold text-primary uppercase tracking-widest">
                 Choose Your Path
               </span>
-              <h2 className="font-[family-name:var(--font-display)] text-4xl md:text-6xl font-bold text-navy mt-4 mb-6">
+              <h2 className="font-[family-name:var(--font-display)] text-4xl md:text-6xl font-bold text-navy dark:text-white mt-4 mb-6">
                 Two Languages.
                 <br />
                 <span className="text-gradient">Infinite Possibilities.</span>
               </h2>
-              <p className="text-lg text-text-light max-w-xl mx-auto">
+              <p className="text-lg text-text-light dark:text-slate-300 max-w-xl mx-auto">
                 Start with the language that excites you most.
               </p>
             </div>
@@ -460,13 +460,13 @@ export default function HomePage() {
                 <Link href="/auth/signup">
                   <div className="card-elevated p-8 text-center group cursor-pointer hover:shadow-xl transition-all duration-300">
                     <div className="text-6xl mb-6">{lang.flag}</div>
-                    <h3 className="font-[family-name:var(--font-display)] text-2xl font-bold text-navy mb-2">
+                    <h3 className="font-[family-name:var(--font-display)] text-2xl font-bold text-navy dark:text-white mb-2">
                       {lang.name}
                     </h3>
                     <p className="text-lg text-primary font-semibold mb-4">{lang.nativeName}</p>
                     <div className="flex flex-wrap justify-center gap-2 mt-4">
                       {lang.words.slice(0, 3).map((word) => (
-                        <span key={word} className="px-3 py-1 rounded-full bg-surface text-sm text-text-light font-medium">
+                        <span key={word} className="px-3 py-1 rounded-full bg-surface dark:bg-slate-700 text-sm text-text-light dark:text-slate-300 font-medium">
                           {word}
                         </span>
                       ))}
@@ -483,12 +483,12 @@ export default function HomePage() {
       </section>
 
       {/* ===== MARQUEE ===== */}
-      <div className="py-8 bg-navy overflow-hidden">
+      <div className="py-8 bg-navy dark:bg-slate-950 overflow-hidden">
         <Marquee text="LEARN \u00B7 PRACTICE \u00B7 MASTER \u00B7 REPEAT" size="xl" color="rgba(255,255,255,0.08)" duration={15} />
       </div>
 
       {/* ===== FEATURES ===== */}
-      <section id="features" className="scroll-section bg-cloud relative">
+      <section id="features" className="scroll-section bg-cloud dark:bg-slate-900 relative">
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
         <div className="scroll-section-content">
           <ScrollReveal variant="fade-up">
@@ -496,7 +496,7 @@ export default function HomePage() {
               <span className="text-sm font-semibold text-primary uppercase tracking-widest">
                 Everything You Need
               </span>
-              <h2 className="font-[family-name:var(--font-display)] text-4xl md:text-6xl font-bold text-navy mt-4 mb-6">
+              <h2 className="font-[family-name:var(--font-display)] text-4xl md:text-6xl font-bold text-navy dark:text-white mt-4 mb-6">
                 Built to Help You
                 <br />
                 <span className="text-gradient">Actually Learn.</span>
@@ -511,10 +511,10 @@ export default function HomePage() {
                   <div className={`w-12 h-12 rounded-2xl ${feature.color} flex items-center justify-center mb-4`}>
                     <feature.icon className="w-6 h-6" />
                   </div>
-                  <h3 className="font-[family-name:var(--font-display)] text-lg font-bold text-navy mb-2">
+                  <h3 className="font-[family-name:var(--font-display)] text-lg font-bold text-navy dark:text-white mb-2">
                     {feature.title}
                   </h3>
-                  <p className="text-text-light text-sm leading-relaxed">{feature.description}</p>
+                  <p className="text-text-light dark:text-slate-300 text-sm leading-relaxed">{feature.description}</p>
                 </div>
               </ScrollReveal>
             ))}
@@ -523,20 +523,20 @@ export default function HomePage() {
       </section>
 
       {/* ===== HOW IT WORKS ===== */}
-      <section id="method" className="scroll-section bg-white relative">
+      <section id="method" className="scroll-section bg-white dark:bg-slate-950 relative">
         <div className="absolute inset-0 pattern-dots" />
         <div className="scroll-section-content">
           <ScrollReveal variant="fade-up">
             <div className="text-center mb-16">
               <span className="text-sm font-semibold text-primary uppercase tracking-widest">How It Works</span>
-              <h2 className="font-[family-name:var(--font-display)] text-4xl md:text-6xl font-bold text-navy mt-4 mb-6">
+              <h2 className="font-[family-name:var(--font-display)] text-4xl md:text-6xl font-bold text-navy dark:text-white mt-4 mb-6">
                 Four Steps to <span className="text-gradient">Fluency.</span>
               </h2>
             </div>
           </ScrollReveal>
 
           <div className="max-w-3xl mx-auto relative">
-            <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-border hidden md:block" />
+            <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-border dark:bg-white/10 hidden md:block" />
             <div className="space-y-12">
               {steps.map((step, i) => (
                 <ScrollReveal key={step.number} variant="fade-left" delay={i * 0.12}>
@@ -547,11 +547,11 @@ export default function HomePage() {
                     <div className="pt-1">
                       <div className="flex items-center gap-3 mb-2">
                         <step.icon className="w-5 h-5 text-primary" />
-                        <h3 className="font-[family-name:var(--font-display)] text-xl font-bold text-navy">
+                        <h3 className="font-[family-name:var(--font-display)] text-xl font-bold text-navy dark:text-white">
                           {step.title}
                         </h3>
                       </div>
-                      <p className="text-text-light leading-relaxed">{step.description}</p>
+                      <p className="text-text-light dark:text-slate-300 leading-relaxed">{step.description}</p>
                     </div>
                   </div>
                 </ScrollReveal>
@@ -562,7 +562,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== GAMIFICATION ===== */}
-      <section id="gamification" className="scroll-section bg-gradient-to-b from-cloud to-white relative min-h-screen">
+      <section id="gamification" className="scroll-section bg-gradient-to-b from-cloud to-white dark:from-slate-900 dark:to-slate-950 relative min-h-screen">
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
         <div className="scroll-section-content w-full">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center min-h-[80vh]">
@@ -571,7 +571,7 @@ export default function HomePage() {
                 <span className="text-sm font-semibold text-primary uppercase tracking-widest">
                   Stay Motivated
                 </span>
-                <h2 className="font-[family-name:var(--font-display)] text-4xl md:text-5xl lg:text-6xl font-bold text-navy mt-4 mb-6 leading-tight">
+                <h2 className="font-[family-name:var(--font-display)] text-4xl md:text-5xl lg:text-6xl font-bold text-navy dark:text-white mt-4 mb-6 leading-tight">
                   Learning That
                   <br />
                   <span className="text-gradient-warm">Feels Like a Game.</span>
@@ -579,7 +579,7 @@ export default function HomePage() {
               </ScrollReveal>
 
               <ScrollReveal variant="fade-left" delay={0.1}>
-                <p className="text-lg text-text-light max-w-md mb-10 leading-relaxed">
+                <p className="text-lg text-text-light dark:text-slate-300 max-w-md mb-10 leading-relaxed">
                   Earn XP for every correct answer. Build daily streaks.
                   Unlock achievements. Watch your level climb from Beginner
                   to Master.
@@ -593,8 +593,8 @@ export default function HomePage() {
                       <Zap className="w-6 h-6 text-xp" />
                     </div>
                     <div>
-                      <div className="font-[family-name:var(--font-display)] font-bold text-navy">Earn XP</div>
-                      <div className="text-sm text-text-light">Every correct answer earns points</div>
+                      <div className="font-[family-name:var(--font-display)] font-bold text-navy dark:text-white">Earn XP</div>
+                      <div className="text-sm text-text-light dark:text-slate-300">Every correct answer earns points</div>
                     </div>
                     <div className="ml-auto font-[family-name:var(--font-display)] font-bold text-xp text-sm">+10 XP</div>
                   </div>
@@ -603,8 +603,8 @@ export default function HomePage() {
                       <Flame className="w-6 h-6 text-streak" />
                     </div>
                     <div>
-                      <div className="font-[family-name:var(--font-display)] font-bold text-navy">Build Streaks</div>
-                      <div className="text-sm text-text-light">Practice daily to keep your streak</div>
+                      <div className="font-[family-name:var(--font-display)] font-bold text-navy dark:text-white">Build Streaks</div>
+                      <div className="text-sm text-text-light dark:text-slate-300">Practice daily to keep your streak</div>
                     </div>
                     <div className="ml-auto font-[family-name:var(--font-display)] font-bold text-streak text-sm">1.5x Bonus</div>
                   </div>
@@ -613,8 +613,8 @@ export default function HomePage() {
                       <Trophy className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <div className="font-[family-name:var(--font-display)] font-bold text-navy">Level Up</div>
-                      <div className="text-sm text-text-light">10 levels from Beginner to Master</div>
+                      <div className="font-[family-name:var(--font-display)] font-bold text-navy dark:text-white">Level Up</div>
+                      <div className="text-sm text-text-light dark:text-slate-300">10 levels from Beginner to Master</div>
                     </div>
                     <div className="ml-auto font-[family-name:var(--font-display)] font-bold text-primary text-sm">Lv. 10</div>
                   </div>
@@ -627,21 +627,21 @@ export default function HomePage() {
                     <div className="font-[family-name:var(--font-display)] text-3xl font-bold text-primary">
                       <CountUp end={10} />
                     </div>
-                    <div className="text-xs text-muted font-medium">Levels</div>
+                    <div className="text-xs text-muted dark:text-slate-400 font-medium">Levels</div>
                   </div>
-                  <div className="w-px h-10 bg-border" />
+                  <div className="w-px h-10 bg-border dark:bg-white/10" />
                   <div className="text-center">
                     <div className="font-[family-name:var(--font-display)] text-3xl font-bold text-xp">
                       <CountUp end={5000} suffix="+" />
                     </div>
-                    <div className="text-xs text-muted font-medium">Max XP</div>
+                    <div className="text-xs text-muted dark:text-slate-400 font-medium">Max XP</div>
                   </div>
-                  <div className="w-px h-10 bg-border" />
+                  <div className="w-px h-10 bg-border dark:bg-white/10" />
                   <div className="text-center">
                     <div className="font-[family-name:var(--font-display)] text-3xl font-bold text-streak">
                       <CountUp end={8} />
                     </div>
-                    <div className="text-xs text-muted font-medium">Achievements</div>
+                    <div className="text-xs text-muted dark:text-slate-400 font-medium">Achievements</div>
                   </div>
                 </div>
               </ScrollReveal>
@@ -655,7 +655,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== CTA ===== */}
-      <section id="cta" className="scroll-section bg-navy relative overflow-hidden">
+      <section id="cta" className="scroll-section bg-navy dark:bg-slate-950 relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-10 left-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl" />
           <div className="absolute bottom-10 right-10 w-80 h-80 bg-sky/10 rounded-full blur-3xl" />
@@ -696,7 +696,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== FOOTER ===== */}
-      <footer className="bg-navy border-t border-white/10">
+      <footer className="bg-navy dark:bg-slate-950 border-t border-white/10">
         <div className="max-w-6xl mx-auto px-6 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             <div className="col-span-2 md:col-span-1">

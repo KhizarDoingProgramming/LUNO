@@ -37,7 +37,7 @@ export default function SignUpPage() {
   return (
     <div className="min-h-screen flex">
       {/* Left Panel */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-cloud via-white to-sky/20 relative overflow-hidden items-center justify-center">
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-cloud via-white to-sky/20 dark:from-slate-900 dark:via-slate-800 dark:to-slate-800 relative overflow-hidden items-center justify-center">
         <div className="absolute inset-0 pattern-dots" />
         <div className="absolute top-20 left-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-20 w-64 h-64 bg-sky/20 rounded-full blur-3xl" />
@@ -50,17 +50,17 @@ export default function SignUpPage() {
               </span>
             </div>
           </Link>
-          <h1 className="font-[family-name:var(--font-display)] text-4xl font-bold text-navy mb-4">
+          <h1 className="font-[family-name:var(--font-display)] text-4xl font-bold text-navy dark:text-white mb-4">
             LUNO
           </h1>
-          <p className="text-text-light text-lg max-w-xs mx-auto">
+          <p className="text-text-light dark:text-slate-300 text-lg max-w-xs mx-auto">
             Learn Russian & German through interactive practice
           </p>
         </div>
       </div>
 
       {/* Right Panel */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-white">
+      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-white dark:bg-slate-900">
         <motion.div
           className="w-full max-w-md"
           initial={{ opacity: 0, y: 20 }}
@@ -73,15 +73,15 @@ export default function SignUpPage() {
                 L
               </span>
             </div>
-            <span className="font-[family-name:var(--font-display)] text-xl font-bold text-navy">
+            <span className="font-[family-name:var(--font-display)] text-xl font-bold text-navy dark:text-white">
               LUNO
             </span>
           </div>
 
-          <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold text-navy mb-2">
+          <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold text-navy dark:text-white mb-2">
             Create your account
           </h2>
-          <p className="text-muted mb-8">
+          <p className="text-muted dark:text-slate-400 mb-8">
             Start learning in seconds. It&apos;s free.
           </p>
 
@@ -95,7 +95,7 @@ export default function SignUpPage() {
             <div>
               <label
                 htmlFor="fullName"
-                className="block text-sm font-medium text-navy mb-1.5"
+                className="block text-sm font-medium text-navy dark:text-slate-200 mb-1.5"
               >
                 Full name
               </label>
@@ -112,7 +112,7 @@ export default function SignUpPage() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-navy mb-1.5"
+                className="block text-sm font-medium text-navy dark:text-slate-200 mb-1.5"
               >
                 Email
               </label>
@@ -129,7 +129,7 @@ export default function SignUpPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-navy mb-1.5"
+                className="block text-sm font-medium text-navy dark:text-slate-200 mb-1.5"
               >
                 Password
               </label>
@@ -145,7 +145,7 @@ export default function SignUpPage() {
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-navy transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted dark:text-slate-400 hover:text-navy dark:hover:text-white transition-colors"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
@@ -173,7 +173,7 @@ export default function SignUpPage() {
             </button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-muted">
+          <p className="mt-6 text-center text-sm text-muted dark:text-slate-400">
             Already have an account?{" "}
             <Link
               href="/auth/login"

@@ -248,9 +248,9 @@ export default function LessonPage() {
 
   if (!lesson || !lesson.exercises[currentIndex]) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-cloud">
+      <div className="min-h-screen flex items-center justify-center bg-cloud dark:bg-slate-950">
         <div className="text-center">
-          <p className="text-muted mb-4">Lesson not found</p>
+          <p className="text-muted dark:text-slate-400 mb-4">Lesson not found</p>
           <button onClick={() => router.push("/dashboard")} className="btn-primary">Back to Dashboard</button>
         </div>
       </div>
@@ -316,27 +316,27 @@ export default function LessonPage() {
 
   if (exerciseState === "completed") {
     return (
-      <div className="min-h-screen flex items-center justify-center px-6 bg-cloud">
+      <div className="min-h-screen flex items-center justify-center px-6 bg-cloud dark:bg-slate-950">
         <motion.div className="w-full max-w-md text-center" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
-          <div className="bg-white rounded-3xl border border-border p-8 shadow-lg">
+          <div className="bg-white dark:bg-slate-800 rounded-3xl border border-border dark:border-white/10 p-8 shadow-lg">
             <div className="h-20 w-20 rounded-full bg-success/10 flex items-center justify-center mx-auto mb-6">
               <Trophy className="h-10 w-10 text-success" />
             </div>
-            <h1 className="font-[family-name:var(--font-display)] text-2xl font-bold text-navy mb-2">Lesson Complete!</h1>
-            <p className="text-muted mb-8">Great work on &ldquo;{lesson.title}&rdquo;</p>
+            <h1 className="font-[family-name:var(--font-display)] text-2xl font-bold text-navy dark:text-white mb-2">Lesson Complete!</h1>
+            <p className="text-muted dark:text-slate-400 mb-8">Great work on &ldquo;{lesson.title}&rdquo;</p>
 
             <div className="grid grid-cols-3 gap-4 mb-8">
-              <div className="p-4 rounded-xl bg-surface">
+              <div className="p-4 rounded-xl bg-surface dark:bg-slate-700">
                 <p className="text-2xl font-bold text-primary">{score}/{lesson.exercises.length}</p>
-                <p className="text-xs text-muted mt-1">Correct</p>
+                <p className="text-xs text-muted dark:text-slate-400 mt-1">Correct</p>
               </div>
-              <div className="p-4 rounded-xl bg-surface">
+              <div className="p-4 rounded-xl bg-surface dark:bg-slate-700">
                 <p className="text-2xl font-bold text-xp">+{totalXp}</p>
-                <p className="text-xs text-muted mt-1">XP Earned</p>
+                <p className="text-xs text-muted dark:text-slate-400 mt-1">XP Earned</p>
               </div>
-              <div className="p-4 rounded-xl bg-surface">
+              <div className="p-4 rounded-xl bg-surface dark:bg-slate-700">
                 <p className="text-2xl font-bold text-success">{accuracy}%</p>
-                <p className="text-xs text-muted mt-1">Accuracy</p>
+                <p className="text-xs text-muted dark:text-slate-400 mt-1">Accuracy</p>
               </div>
             </div>
 
@@ -358,18 +358,18 @@ export default function LessonPage() {
   }
 
   return (
-    <div className="min-h-screen bg-cloud">
-      <header className="bg-white border-b border-border">
+    <div className="min-h-screen bg-cloud dark:bg-slate-950">
+      <header className="bg-white dark:bg-slate-900 border-b border-border dark:border-white/10">
         <div className="mx-auto max-w-3xl px-6 py-4 flex items-center gap-4">
-          <button onClick={() => router.push("/dashboard")} className="p-2 rounded-xl hover:bg-surface transition-colors" aria-label="Back">
-            <ArrowLeft className="h-5 w-5 text-navy" />
+          <button onClick={() => router.push("/dashboard")} className="p-2 rounded-xl hover:bg-surface dark:hover:bg-white/10 transition-colors" aria-label="Back">
+            <ArrowLeft className="h-5 w-5 text-navy dark:text-white" />
           </button>
           <div className="flex-1">
-            <div className="w-full h-2.5 bg-surface rounded-full overflow-hidden">
+            <div className="w-full h-2.5 bg-surface dark:bg-slate-700 rounded-full overflow-hidden">
               <motion.div className="h-full bg-gradient-to-r from-primary to-primary-light rounded-full" animate={{ width: `${progress}%` }} transition={{ duration: 0.3 }} />
             </div>
           </div>
-          <span className="text-sm font-semibold text-navy">
+          <span className="text-sm font-semibold text-navy dark:text-white">
             {isReview && <span className="text-primary mr-1">Review:</span>}
             {activeIndex + 1}/{activeExercises.length}
           </span>
@@ -382,8 +382,8 @@ export default function LessonPage() {
             className="mb-6 p-4 rounded-xl bg-primary/10 border border-primary/20 flex items-center gap-3">
             <RotateCcw className="w-5 h-5 text-primary flex-shrink-0" />
             <div>
-              <p className="font-semibold text-navy text-sm">Review Round</p>
-              <p className="text-xs text-muted">Let&apos;s practice the ones you missed. You got this!</p>
+              <p className="font-semibold text-navy dark:text-white text-sm">Review Round</p>
+              <p className="text-xs text-muted dark:text-slate-400">Let&apos;s practice the ones you missed. You got this!</p>
             </div>
           </motion.div>
         )}
@@ -398,11 +398,11 @@ export default function LessonPage() {
                 <div className="text-xs font-semibold text-primary uppercase tracking-wider">
                   {isReview ? "Review" : currentExercise.type.replace("_", " ")}
                 </div>
-                <div className="text-xs text-muted">+{currentExercise.xp_value} XP</div>
+                <div className="text-xs text-muted dark:text-slate-400">+{currentExercise.xp_value} XP</div>
               </div>
             </div>
 
-            <h2 className="font-[family-name:var(--font-display)] text-xl sm:text-2xl font-bold text-navy mb-8 leading-snug">
+            <h2 className="font-[family-name:var(--font-display)] text-xl sm:text-2xl font-bold text-navy dark:text-white mb-8 leading-snug">
               {currentExercise.question}
             </h2>
 
@@ -416,11 +416,11 @@ export default function LessonPage() {
                         : exerciseState === "incorrect" && option.text === selectedAnswer ? "border-danger bg-danger/5 text-danger"
                         : "border-primary bg-primary/5 text-primary"
                         : exerciseState !== "active" && option.is_correct ? "border-success bg-success/5 text-success"
-                        : "border-border bg-white hover:border-primary/30 text-navy"
+                        : "border-border dark:border-white/10 bg-white dark:bg-slate-800 hover:border-primary/30 text-navy dark:text-slate-200"
                     }`}>
                     <div className="flex items-center gap-3">
                       <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${
-                        selectedAnswer === option.text ? "bg-primary text-white" : "bg-surface text-muted"
+                        selectedAnswer === option.text ? "bg-primary text-white" : "bg-surface dark:bg-slate-700 text-muted dark:text-slate-400"
                       }`}>
                         {exerciseState !== "active" && option.is_correct ? <Check className="w-4 h-4" /> : String.fromCharCode(65 + currentExercise.options!.indexOf(option))}
                       </div>
@@ -444,10 +444,10 @@ export default function LessonPage() {
                 <input type="text" value={textInput} onChange={(e) => setTextInput(e.target.value)}
                   onKeyDown={(e) => { if (e.key === "Enter" && textInput.trim() && exerciseState === "active") checkAnswer(); }}
                   disabled={exerciseState !== "active"} placeholder="Type your answer..."
-                  className={`w-full p-4 rounded-xl border-2 text-lg font-medium bg-white transition-all duration-200 ${
+                  className={`w-full p-4 rounded-xl border-2 text-lg font-medium bg-white dark:bg-slate-800 text-navy dark:text-white transition-all duration-200 ${
                     exerciseState === "correct" ? "border-success bg-success/5"
                     : exerciseState === "incorrect" ? "border-danger bg-danger/5"
-                    : "border-border focus:border-primary focus:ring-2 focus:ring-primary/10"
+                    : "border-border dark:border-white/10 focus:border-primary focus:ring-2 focus:ring-primary/10"
                   }`} autoFocus />
                 {currentExercise.type === "translation" && !showHint && exerciseState === "active" && (
                   <button onClick={() => setShowHint(true)} className="mt-2 text-sm text-primary hover:underline">Need a hint?</button>
@@ -460,8 +460,8 @@ export default function LessonPage() {
 
             {currentExercise.type === "word_order" && (
               <div className="mb-8">
-                <div className="min-h-[60px] p-4 rounded-xl border-2 border-dashed border-border bg-white mb-4 flex flex-wrap gap-2 items-center">
-                  {wordOrder.length === 0 && <p className="text-muted text-sm">Tap words to build the sentence</p>}
+                <div className="min-h-[60px] p-4 rounded-xl border-2 border-dashed border-border dark:border-white/10 bg-white dark:bg-slate-800 mb-4 flex flex-wrap gap-2 items-center">
+                  {wordOrder.length === 0 && <p className="text-muted dark:text-slate-400 text-sm">Tap words to build the sentence</p>}
                   {wordOrder.map((word, i) => (
                     <button key={`placed-${i}`} onClick={() => exerciseState === "active" && removeWord(i)}
                       className="px-4 py-2 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors">
@@ -472,7 +472,7 @@ export default function LessonPage() {
                 <div className="flex flex-wrap gap-2">
                   {availableWords.map((word, i) => (
                     <button key={`avail-${i}`} onClick={() => exerciseState === "active" && addWord(word)}
-                      className="px-4 py-2 rounded-xl bg-surface border border-border text-sm font-semibold text-navy hover:bg-primary/5 hover:border-primary/30 transition-all">
+                      className="px-4 py-2 rounded-xl bg-surface dark:bg-slate-700 border border-border dark:border-white/10 text-sm font-semibold text-navy dark:text-slate-200 hover:bg-primary/5 hover:border-primary/30 transition-all">
                       {word}
                     </button>
                   ))}
