@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, ArrowRight, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { signUp } from "@/lib/auth/client";
+import { signUp, signIn } from "@/lib/auth/client";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -24,6 +24,7 @@ export default function SignUpPage() {
 
     try {
       await signUp(email, password, fullName);
+      await signIn(email, password);
       router.push("/onboarding");
     } catch (err: unknown) {
       const message =

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ArrowLeft, Check, Globe, BookOpen, BarChart3, Clock } from "lucide-react";
+import { ArrowRight, ArrowLeft, Check, BookOpen, BarChart3, Clock, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const languages = [
@@ -37,7 +37,7 @@ const dailyGoals = [
 ];
 
 const steps = [
-  { title: "Your language", icon: Globe },
+  { title: "Welcome", icon: Sparkles },
   { title: "Learning", icon: BookOpen },
   { title: "Your level", icon: BarChart3 },
   { title: "Daily goal", icon: Clock },
@@ -46,7 +46,6 @@ const steps = [
 export default function OnboardingPage() {
   const router = useRouter();
   const [step, setStep] = useState(0);
-  const [nativeLanguage] = useState("en");
   const [targetLanguage, setTargetLanguage] = useState("");
   const [level, setLevel] = useState("");
   const [dailyGoal, setDailyGoal] = useState(10);
@@ -79,7 +78,7 @@ export default function OnboardingPage() {
     setLoading(true);
     try {
       const profileData = {
-        native_language_id: nativeLanguage,
+        native_language_id: "en",
         target_language_id: targetLanguage,
         level,
         daily_goal_minutes: dailyGoal,
@@ -148,19 +147,27 @@ export default function OnboardingPage() {
             transition={{ duration: 0.3 }}
           >
             {step === 0 && (
-              <div>
-                <h2 className="text-2xl font-bold mb-2">What language do you speak?</h2>
-                <p className="text-[var(--color-muted)] mb-8">
-                  We&apos;ll use this to personalize your experience.
+              <div className="text-center">
+                <div className="h-16 w-16 rounded-2xl bg-[var(--color-primary)]/10 flex items-center justify-center mx-auto mb-6">
+                  <Sparkles className="h-8 w-8 text-[var(--color-primary)]" />
+                </div>
+                <h2 className="text-2xl font-bold mb-2">Welcome to LUNO!</h2>
+                <p className="text-[var(--color-muted)] mb-8 max-w-sm mx-auto">
+                  Your journey to learn Russian &amp; German starts here.
+                  Let&apos;s set up your learning profile in a few quick steps.
                 </p>
-                <div className="space-y-3">
-                  <div className="p-4 rounded-xl border-2 border-[var(--color-primary)] bg-[var(--color-primary)]/5 flex items-center gap-4">
-                    <span className="text-3xl">🇬🇧</span>
-                    <div>
-                      <p className="font-semibold">English</p>
-                      <p className="text-sm text-[var(--color-muted)]">Native</p>
-                    </div>
-                    <Check className="h-5 w-5 text-[var(--color-primary)] ml-auto" />
+                <div className="grid grid-cols-3 gap-4 max-w-sm mx-auto">
+                  <div className="p-4 rounded-xl bg-[var(--color-surface)]">
+                    <span className="text-2xl mb-2 block">🇷🇺</span>
+                    <p className="text-xs font-medium text-[var(--color-muted)]">Russian</p>
+                  </div>
+                  <div className="p-4 rounded-xl bg-[var(--color-surface)]">
+                    <span className="text-2xl mb-2 block">🇩🇪</span>
+                    <p className="text-xs font-medium text-[var(--color-muted)]">German</p>
+                  </div>
+                  <div className="p-4 rounded-xl bg-[var(--color-surface)]">
+                    <span className="text-2xl mb-2 block">🎯</span>
+                    <p className="text-xs font-medium text-[var(--color-muted)]">Gamified</p>
                   </div>
                 </div>
               </div>

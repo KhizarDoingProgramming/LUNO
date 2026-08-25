@@ -302,20 +302,8 @@ export default function DashboardPage() {
                   <div className="divide-y divide-[var(--color-border)]">
                     {unit.lessons.map((lesson) => {
                       const isCompleted = completedLessons.includes(lesson.id);
-                      return (
-                      <Link
-                        key={lesson.id}
-                        href={
-                          unitIndex === 0
-                            ? `/lesson/${lesson.id}`
-                            : "#"
-                        }
-                        className={`flex items-center justify-between px-6 py-4 transition-colors ${
-                          unitIndex === 0
-                            ? "hover:bg-[var(--color-surface)] cursor-pointer"
-                            : "opacity-50 cursor-not-allowed"
-                        }`}
-                      >
+                      const isLocked = unitIndex > 0;
+                      const lessonContent = (
                         <div className="flex items-center gap-3">
                           <div
                             className={`h-8 w-8 rounded-full flex items-center justify-center ${
@@ -351,9 +339,26 @@ export default function DashboardPage() {
                             </p>
                           </div>
                         </div>
-                        <ChevronRight className="h-4 w-4 text-[var(--color-muted)]" />
-                      </Link>
-                    );
+                      );
+
+                      return isLocked ? (
+                        <div
+                          key={lesson.id}
+                          className="flex items-center justify-between px-6 py-4 transition-colors opacity-50 cursor-not-allowed"
+                        >
+                          {lessonContent}
+                          <ChevronRight className="h-4 w-4 text-[var(--color-muted)]" />
+                        </div>
+                      ) : (
+                        <Link
+                          key={lesson.id}
+                          href={`/lesson/${lesson.id}`}
+                          className="flex items-center justify-between px-6 py-4 transition-colors hover:bg-[var(--color-surface)] cursor-pointer"
+                        >
+                          {lessonContent}
+                          <ChevronRight className="h-4 w-4 text-[var(--color-muted)]" />
+                        </Link>
+                      );
                     })}
                   </div>
                 </motion.div>

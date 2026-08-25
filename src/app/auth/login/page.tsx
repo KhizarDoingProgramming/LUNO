@@ -15,7 +15,6 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [resetSent, setResetSent] = useState(false);
   const [showReset, setShowReset] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,22 +28,6 @@ export default function LoginPage() {
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : "Invalid email or password";
-      setError(message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleResetPassword = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-
-    try {
-      setResetSent(true);
-    } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : "Failed to send reset email";
       setError(message);
     } finally {
       setLoading(false);
@@ -103,11 +86,10 @@ export default function LoginPage() {
           </p>
 
           {showReset ? (
-            resetSent ? (
               <div className="text-center py-8">
-                <div className="h-12 w-12 rounded-full bg-success/10 flex items-center justify-center mx-auto mb-4">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                   <svg
-                    className="h-6 w-6 text-success"
+                    className="h-6 w-6 text-primary"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -116,73 +98,24 @@ export default function LoginPage() {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M5 13l4 4L19 7"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] font-semibold text-navy dark:text-white mb-2">
-                  Check your email
+                  Password Reset
                 </h3>
-                <p className="text-sm text-muted dark:text-slate-400 mb-6">
-                  We sent a password reset link to {email}
+                <p className="text-sm text-muted dark:text-slate-400 mb-6 max-w-xs mx-auto">
+                  Please contact support to reset your password. We&apos;ll get you back in no time.
                 </p>
                 <button
                   className="btn-secondary text-sm"
-                  onClick={() => {
-                    setShowReset(false);
-                    setResetSent(false);
-                  }}
+                  onClick={() => setShowReset(false)}
                 >
                   Back to login
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleResetPassword} className="space-y-4">
-                {error && (
-                  <div className="p-3 rounded-xl bg-danger/10 border border-danger/20 text-sm text-danger">
-                    {error}
-                  </div>
-                )}
-
-                <div>
-                  <label
-                    htmlFor="reset-email"
-                    className="block text-sm font-medium text-navy dark:text-slate-200 mb-1.5"
-                  >
-                    Email address
-                  </label>
-                  <Input
-                    id="reset-email"
-                    type="email"
-                    placeholder="you@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="btn-primary w-full"
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                  ) : (
-                    "Send reset link"
-                  )}
-                </button>
-
-                <button
-                  type="button"
-                  className="w-full text-sm text-muted dark:text-slate-400 hover:text-navy dark:hover:text-white transition-colors"
-                  onClick={() => setShowReset(false)}
-                >
-                  Back to login
-                </button>
-              </form>
-            )
-          ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
                 <div className="p-3 rounded-xl bg-danger/10 border border-danger/20 text-sm text-danger">

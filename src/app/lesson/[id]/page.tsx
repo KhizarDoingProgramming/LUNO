@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -160,8 +160,10 @@ export default function LessonPage() {
     setShowHint(false);
   }, [currentIndex, reviewIndex, isReview]);
 
+  const xpPersisted = useRef(false);
   useEffect(() => {
-    if (exerciseState === "completed" && lesson && totalXp > 0) {
+    if (exerciseState === "completed" && lesson && totalXp > 0 && !xpPersisted.current) {
+      xpPersisted.current = true;
       addLessonXp(lesson.id, totalXp);
     }
   }, [exerciseState, lesson, totalXp]);
@@ -337,7 +339,7 @@ export default function LessonPage() {
               {currentExercise.question}
             </h2>
 
-            {currentExercise.type === "multiple_choice" && currentExercise.options && (
+            {currentExercise.type === "multiple_choice" && currentExercise.options && currentExercise.options.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
                 {currentExercise.options.map((option) => (
                   <button key={option.id} onClick={() => { if (exerciseState === "active") { tapClick(); setSelectedAnswer(option.text); } }} disabled={exerciseState !== "active"}

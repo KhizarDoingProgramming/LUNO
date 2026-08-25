@@ -40,6 +40,22 @@ async function createExercises(lessonId: string, exercises: ExerciseData[]) {
 async function main() {
   console.log("Seeding LUNO database...\n");
 
+  // Clean previous seed data to ensure idempotency
+  await prisma.exerciseOption.deleteMany();
+  await prisma.userAnswer.deleteMany();
+  await prisma.userAchievement.deleteMany();
+  await prisma.userProgress.deleteMany();
+  await prisma.exercise.deleteMany();
+  await prisma.grammarRule.deleteMany();
+  await prisma.vocabularyForm.deleteMany();
+  await prisma.vocabulary.deleteMany();
+  await prisma.achievement.deleteMany();
+  await prisma.lesson.deleteMany();
+  await prisma.unit.deleteMany();
+  await prisma.course.deleteMany();
+  await prisma.language.deleteMany();
+  console.log("✓ Cleaned previous data");
+
   // ============================================
   // LANGUAGES
   // ============================================

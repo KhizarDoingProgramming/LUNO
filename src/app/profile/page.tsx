@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
@@ -26,11 +26,13 @@ export default function ProfilePage() {
 
   const { status } = useSession();
 
-  if (status === "unauthenticated") {
-    router.push("/auth/login");
-    return null;
-  }
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/auth/login");
+    }
+  }, [status, router]);
 
+  if (status === "unauthenticated" || status === "loading") return null;
   if (!profile) return null;
 
   const levelTitle =
