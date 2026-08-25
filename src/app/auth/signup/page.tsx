@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, ArrowRight, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { signUp } from "@/lib/auth/client";
 
@@ -37,30 +36,31 @@ export default function SignUpPage() {
 
   return (
     <div className="min-h-screen flex">
-      <div className="hidden lg:flex lg:w-1/2 bg-[var(--color-primary)] relative overflow-hidden items-center justify-center">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDEyem0wLTRWMjhIMjR2Mmgxem0tMi0ydi0ySDE4djJoMTZ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30" />
-        <div className="relative text-center px-12">
-          <div className="h-16 w-16 rounded-2xl bg-white/20 flex items-center justify-center mx-auto mb-8">
-            <svg
-              viewBox="0 0 24 24"
-              className="h-8 w-8 text-white"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
-          </div>
-          <h1 className="text-4xl font-bold text-white mb-4">LUNO</h1>
-          <p className="text-white/80 text-lg">
+      {/* Left Panel */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-cloud via-white to-sky/20 relative overflow-hidden items-center justify-center">
+        <div className="absolute inset-0 pattern-dots" />
+        <div className="absolute top-20 left-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-20 w-64 h-64 bg-sky/20 rounded-full blur-3xl" />
+
+        <div className="relative text-center px-12 z-10">
+          <Link href="/" className="inline-block mb-8">
+            <div className="h-16 w-16 rounded-2xl bg-primary flex items-center justify-center mx-auto shadow-lg shadow-primary/20">
+              <span className="text-white font-bold text-2xl font-[family-name:var(--font-display)]">
+                L
+              </span>
+            </div>
+          </Link>
+          <h1 className="font-[family-name:var(--font-display)] text-4xl font-bold text-navy mb-4">
+            LUNO
+          </h1>
+          <p className="text-text-light text-lg max-w-xs mx-auto">
             Learn Russian & German through interactive practice
           </p>
         </div>
       </div>
 
-      <div className="flex-1 flex items-center justify-center px-6 py-12">
+      {/* Right Panel */}
+      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-white">
         <motion.div
           className="w-full max-w-md"
           initial={{ opacity: 0, y: 20 }}
@@ -68,30 +68,26 @@ export default function SignUpPage() {
           transition={{ duration: 0.5 }}
         >
           <div className="lg:hidden flex items-center gap-2.5 mb-8">
-            <div className="h-9 w-9 rounded-xl bg-[var(--color-primary)] flex items-center justify-center">
-              <svg
-                viewBox="0 0 24 24"
-                className="h-5 w-5 text-white"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2.5}
-              >
-                <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                <path d="M2 17l10 5 10-5" />
-                <path d="M2 12l10 5 10-5" />
-              </svg>
+            <div className="h-9 w-9 rounded-xl bg-primary flex items-center justify-center">
+              <span className="text-white font-bold text-sm font-[family-name:var(--font-display)]">
+                L
+              </span>
             </div>
-            <span className="text-xl font-bold">LUNO</span>
+            <span className="font-[family-name:var(--font-display)] text-xl font-bold text-navy">
+              LUNO
+            </span>
           </div>
 
-          <h2 className="text-2xl font-bold mb-2">Create your account</h2>
-          <p className="text-[var(--color-muted)] mb-8">
+          <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold text-navy mb-2">
+            Create your account
+          </h2>
+          <p className="text-muted mb-8">
             Start learning in seconds. It&apos;s free.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">
+              <div className="p-3 rounded-xl bg-danger/10 border border-danger/20 text-sm text-danger">
                 {error}
               </div>
             )}
@@ -99,7 +95,7 @@ export default function SignUpPage() {
             <div>
               <label
                 htmlFor="fullName"
-                className="block text-sm font-medium mb-1.5"
+                className="block text-sm font-medium text-navy mb-1.5"
               >
                 Full name
               </label>
@@ -116,7 +112,7 @@ export default function SignUpPage() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium mb-1.5"
+                className="block text-sm font-medium text-navy mb-1.5"
               >
                 Email
               </label>
@@ -133,7 +129,7 @@ export default function SignUpPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium mb-1.5"
+                className="block text-sm font-medium text-navy mb-1.5"
               >
                 Password
               </label>
@@ -149,7 +145,7 @@ export default function SignUpPage() {
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--color-muted)] hover:text-[var(--color-text)]"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-navy transition-colors"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
@@ -161,7 +157,11 @@ export default function SignUpPage() {
               </div>
             </div>
 
-            <Button type="submit" className="w-full" size="lg" disabled={loading}>
+            <button
+              type="submit"
+              className="btn-primary w-full"
+              disabled={loading}
+            >
               {loading ? (
                 <Loader2 className="h-5 w-5 animate-spin" />
               ) : (
@@ -170,14 +170,14 @@ export default function SignUpPage() {
                   <ArrowRight className="h-5 w-5" />
                 </>
               )}
-            </Button>
+            </button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-[var(--color-muted)]">
+          <p className="mt-6 text-center text-sm text-muted">
             Already have an account?{" "}
             <Link
               href="/auth/login"
-              className="font-semibold text-[var(--color-primary)] hover:underline"
+              className="font-semibold text-primary hover:underline"
             >
               Log in
             </Link>

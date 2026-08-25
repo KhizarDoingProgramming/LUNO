@@ -4,22 +4,22 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 cursor-pointer",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 cursor-pointer",
   {
     variants: {
       variant: {
         default:
-          "bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary)]/90 focus-visible:ring-[var(--color-primary)] shadow-sm hover:shadow-md",
+          "bg-primary text-white hover:bg-primary-dark focus-visible:ring-primary shadow-sm hover:shadow-md hover:-translate-y-0.5",
         secondary:
-          "bg-[var(--color-secondary)] text-[var(--color-text)] hover:bg-[var(--color-secondary)]/80 focus-visible:ring-[var(--color-secondary)]",
+          "bg-secondary text-text hover:bg-secondary/80 focus-visible:ring-primary",
         outline:
-          "border-2 border-[var(--color-border)] bg-transparent text-[var(--color-text)] hover:bg-[var(--color-surface)] focus-visible:ring-[var(--color-primary)]",
+          "border-2 border-border bg-transparent text-text hover:bg-surface focus-visible:ring-primary",
         ghost:
-          "text-[var(--color-text)] hover:bg-[var(--color-surface)] focus-visible:ring-[var(--color-primary)]",
+          "text-text hover:bg-surface focus-visible:ring-primary",
         danger:
-          "bg-red-500 text-white hover:bg-red-600 focus-visible:ring-red-500",
+          "bg-danger text-white hover:bg-danger/90 focus-visible:ring-danger",
         success:
-          "bg-emerald-500 text-white hover:bg-emerald-600 focus-visible:ring-emerald-500",
+          "bg-success text-white hover:bg-success/90 focus-visible:ring-success",
       },
       size: {
         default: "h-11 px-6 py-2",
