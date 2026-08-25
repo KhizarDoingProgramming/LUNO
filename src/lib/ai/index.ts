@@ -44,7 +44,7 @@ export class OpenRouterProvider implements AIProvider {
 
   constructor(apiKey: string, model?: string) {
     this.apiKey = apiKey;
-    this.model = model || "google/gemini-2.0-flash-001";
+    this.model = model || "openrouter/auto";
   }
 
   async generateResponse(input: AIInput): Promise<AIOutput> {
@@ -182,7 +182,7 @@ export class MockProvider implements AIProvider {
 export function createAIProvider(): AIProvider {
   const provider = process.env.AI_PROVIDER || "mock";
   const apiKey = process.env.OPENROUTER_API_KEY || "";
-  const model = process.env.AI_MODEL || "google/gemini-2.0-flash-001";
+  const model = process.env.AI_MODEL || "openrouter/auto";
 
   switch (provider) {
     case "openrouter":
