@@ -197,7 +197,7 @@ this project is private. don't be weird about it.
 
 <div align="center">
 
-**built with 💜 by mustafa**
+**built with 💜 by MUSTAFA**
 
 [↑ back to top](#-luno)
 
