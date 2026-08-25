@@ -19,6 +19,7 @@ import {
   ListOrdered,
 } from "lucide-react";
 import { addLessonXp } from "@/lib/gamification";
+import { tapClick, tapCorrect, tapIncorrect, tapComplete } from "@/lib/effects";
 
 interface ExerciseOption {
   id: string;
@@ -289,6 +290,7 @@ export default function LessonPage() {
     }
     if (isCorrect) { setScore(score + 1); setTotalXp(totalXp + currentExercise.xp_value); }
     setAnswers([...answers, { exerciseId: currentExercise.id, correct: isCorrect, xp: isCorrect ? currentExercise.xp_value : 0 }]);
+    if (isCorrect) { tapCorrect(); } else { tapIncorrect(); }
     setExerciseState(isCorrect ? "correct" : "incorrect");
   };
 
@@ -298,6 +300,7 @@ export default function LessonPage() {
         setReviewIndex(reviewIndex + 1);
         setExerciseState("active");
       } else {
+        tapComplete();
         setExerciseState("completed");
       }
       return;
@@ -311,6 +314,7 @@ export default function LessonPage() {
         setReviewIndex(0);
         setExerciseState("active");
       } else {
+        tapComplete();
         setExerciseState("completed");
       }
     }
@@ -353,8 +357,8 @@ export default function LessonPage() {
             </div>
 
             <div className="space-y-3">
-              <button className="btn-primary w-full" onClick={() => router.push("/dashboard")}>Continue <ArrowRight className="h-5 w-5 ml-2" /></button>
-              <button className="btn-secondary w-full" onClick={() => { setCurrentIndex(0); setScore(0); setTotalXp(0); setAnswers([]); setExerciseState("active"); setIsReview(false); setFailedExercises([]); setReviewIndex(0); }}>
+              <button className="btn-primary w-full" onClick={() => { tapClick(); router.push("/dashboard"); }}>Continue <ArrowRight className="h-5 w-5 ml-2" /></button>
+              <button className="btn-secondary w-full" onClick={() => { tapClick(); setCurrentIndex(0); setScore(0); setTotalXp(0); setAnswers([]); setExerciseState("active"); setIsReview(false); setFailedExercises([]); setReviewIndex(0); }}>
                 <RotateCcw className="h-4 w-4 mr-2" /> Practice again
               </button>
             </div>
@@ -416,7 +420,7 @@ export default function LessonPage() {
             {currentExercise.type === "multiple_choice" && currentExercise.options && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
                 {currentExercise.options.map((option) => (
-                  <button key={option.id} onClick={() => exerciseState === "active" && setSelectedAnswer(option.text)} disabled={exerciseState !== "active"}
+                  <button key={option.id} onClick={() => { if (exerciseState === "active") { tapClick(); setSelectedAnswer(option.text); } }} disabled={exerciseState !== "active"}
                     className={`p-4 rounded-xl border-2 text-left font-medium transition-all duration-200 ${
                       selectedAnswer === option.text
                         ? exerciseState === "correct" && option.is_correct ? "border-success bg-success/5 text-success"
@@ -457,7 +461,7 @@ export default function LessonPage() {
                     : "border-border dark:border-white/10 focus:border-primary focus:ring-2 focus:ring-primary/10"
                   }`} autoFocus />
                 {currentExercise.type === "translation" && !showHint && exerciseState === "active" && (
-                  <button onClick={() => setShowHint(true)} className="mt-2 text-sm text-primary hover:underline">Need a hint?</button>
+                  <button onClick={() => { tapClick(); setShowHint(true); }} className="mt-2 text-sm text-primary hover:underline">Need a hint?</button>
                 )}
                 {showHint && (
                   <p className="mt-2 text-sm text-muted dark:text-slate-400">Hint: The answer starts with &ldquo;{currentExercise.correct_answer[0]}&rdquo;</p>
@@ -470,7 +474,7 @@ export default function LessonPage() {
                 <div className="min-h-[60px] p-4 rounded-xl border-2 border-dashed border-border dark:border-white/10 bg-white dark:bg-slate-800 mb-4 flex flex-wrap gap-2 items-center">
                   {wordOrder.length === 0 && <p className="text-muted dark:text-slate-400 text-sm">Tap words to build the sentence</p>}
                   {wordOrder.map((word, i) => (
-                    <button key={`placed-${i}`} onClick={() => exerciseState === "active" && removeWord(i)}
+                    <button key={`placed-${i}`} onClick={() => { if (exerciseState === "active") { tapClick(); removeWord(i); } }}
                       className="px-4 py-2 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors">
                       {word}
                     </button>
@@ -478,7 +482,7 @@ export default function LessonPage() {
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {availableWords.map((word, i) => (
-                    <button key={`avail-${i}`} onClick={() => exerciseState === "active" && addWord(word)}
+                    <button key={`avail-${i}`} onClick={() => { if (exerciseState === "active") { tapClick(); addWord(word); } }}
                       className="px-4 py-2 rounded-xl bg-surface dark:bg-slate-700 border border-border dark:border-white/10 text-sm font-semibold text-navy dark:text-slate-200 hover:bg-primary/5 hover:border-primary/30 transition-all">
                       {word}
                     </button>
@@ -512,7 +516,7 @@ export default function LessonPage() {
                 <Star className="h-4 w-4 text-xp" /> {currentExercise.xp_value} XP
               </div>
               {exerciseState === "active" ? (
-                <button onClick={checkAnswer} disabled={
+                <button onClick={() => { tapClick(); checkAnswer(); }} disabled={
                   (currentExercise.type === "multiple_choice" && !selectedAnswer) ||
                   (currentExercise.type === "word_order" && wordOrder.length === 0) ||
                   (["translation", "fill_blank", "listening"].includes(currentExercise.type) && !textInput.trim())
@@ -520,7 +524,7 @@ export default function LessonPage() {
                   Check
                 </button>
               ) : (
-                <button onClick={nextExercise} className="btn-primary">
+                <button onClick={() => { tapClick(); nextExercise(); }} className="btn-primary">
                   {isReview
                     ? reviewIndex < failedExercises.length - 1 ? "Continue" : "Finish"
                     : currentIndex < lesson.exercises.length - 1 ? "Continue" : "Finish"
