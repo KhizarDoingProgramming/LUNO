@@ -14,7 +14,6 @@ import {
   RotateCcw,
   Trophy,
   Volume2,
-  Shuffle,
   PenLine,
   ListOrdered,
 } from "lucide-react";
@@ -44,133 +43,6 @@ interface LessonData {
   exercises: Exercise[];
 }
 
-const lessonDatabase: Record<string, LessonData> = {
-  "l1000000-0000-0000-0000-000000000001": {
-    id: "l1000000-0000-0000-0000-000000000001",
-    title: "Basic Hello",
-    exercises: [
-      {
-        id: "e1", type: "multiple_choice",
-        question: 'What does "Здравствуйте" mean?',
-        correct_answer: "Hello (formal)", xp_value: 10,
-        explanation: "Здравствуйте is the formal way to say hello in Russian.",
-        options: [
-          { id: "1", text: "Goodbye", is_correct: false },
-          { id: "2", text: "Hello (formal)", is_correct: true },
-          { id: "3", text: "Thank you", is_correct: false },
-          { id: "4", text: "Please", is_correct: false },
-        ],
-      },
-      {
-        id: "e2", type: "translation",
-        question: 'Translate to Russian: "Hello"',
-        correct_answer: "Привет", xp_value: 10,
-        explanation: "Привет is the informal way to say hello.",
-      },
-      {
-        id: "e3", type: "word_order",
-        question: "Arrange the words to form a sentence:",
-        correct_answer: "Как дела?", xp_value: 10,
-        explanation: "Как дела? means How are you?",
-        metadata: { words: ["как", "дела", "?"] },
-      },
-      {
-        id: "e4", type: "fill_blank",
-        question: '____, как дела? (Hello, how are you?)',
-        correct_answer: "Привет", xp_value: 10,
-        explanation: "Привет is the informal greeting.",
-      },
-      {
-        id: "e5", type: "multiple_choice",
-        question: 'What does "Привет" mean?',
-        correct_answer: "Hi (informal)", xp_value: 10,
-        explanation: "Привет is the informal way to say hi.",
-        options: [
-          { id: "1", text: "Goodbye", is_correct: false },
-          { id: "2", text: "Please", is_correct: false },
-          { id: "3", text: "Hi (informal)", is_correct: true },
-          { id: "4", text: "Thank you", is_correct: false },
-        ],
-      },
-      {
-        id: "e6", type: "listening",
-        question: 'Listen and type what you hear: "Спасибо"',
-        correct_answer: "Спасибо", xp_value: 15,
-        explanation: "Спасибо means Thank you in Russian.",
-        metadata: { words: ["Спасибо"] },
-      },
-      {
-        id: "e7", type: "translation",
-        question: 'Translate to Russian: "Thank you"',
-        correct_answer: "Спасибо", xp_value: 10,
-        explanation: "Спасибо is how you say thank you.",
-      },
-    ],
-  },
-  "l2000000-0000-0000-0000-000000000001": {
-    id: "l2000000-0000-0000-0000-000000000001",
-    title: "Basic Hello",
-    exercises: [
-      {
-        id: "e21", type: "multiple_choice",
-        question: 'What does "Hallo" mean?',
-        correct_answer: "Hello", xp_value: 10,
-        explanation: "Hallo is the most common informal greeting in German.",
-        options: [
-          { id: "1", text: "Goodbye", is_correct: false },
-          { id: "2", text: "Hello", is_correct: true },
-          { id: "3", text: "Thank you", is_correct: false },
-          { id: "4", text: "Please", is_correct: false },
-        ],
-      },
-      {
-        id: "e22", type: "translation",
-        question: 'Translate to German: "Good day"',
-        correct_answer: "Guten Tag", xp_value: 10,
-        explanation: "Guten Tag is a formal greeting used during the day.",
-      },
-      {
-        id: "e23", type: "word_order",
-        question: "Arrange the words to form a greeting:",
-        correct_answer: "Guten Tag", xp_value: 10,
-        explanation: "Guten Tag means Good day.",
-        metadata: { words: ["Tag", "Guten"] },
-      },
-      {
-        id: "e24", type: "fill_blank",
-        question: '____, wie geht es Ihnen? (Hello, how are you?)',
-        correct_answer: "Guten Tag", xp_value: 10,
-        explanation: "Guten Tag is the formal daytime greeting.",
-      },
-      {
-        id: "e25", type: "multiple_choice",
-        question: 'What does "Danke" mean?',
-        correct_answer: "Thank you", xp_value: 10,
-        explanation: "Danke means Thank you.",
-        options: [
-          { id: "1", text: "Please", is_correct: false },
-          { id: "2", text: "Hello", is_correct: false },
-          { id: "3", text: "Thank you", is_correct: true },
-          { id: "4", text: "Goodbye", is_correct: false },
-        ],
-      },
-      {
-        id: "e26", type: "listening",
-        question: 'Listen and type what you hear: "Bitte"',
-        correct_answer: "Bitte", xp_value: 15,
-        explanation: "Bitte means Please / You're welcome in German.",
-        metadata: { words: ["Bitte"] },
-      },
-      {
-        id: "e27", type: "translation",
-        question: 'Translate to German: "Goodbye"',
-        correct_answer: "Auf Wiedersehen", xp_value: 10,
-        explanation: "Auf Wiedersehen is the formal way to say goodbye.",
-      },
-    ],
-  },
-};
-
 type ExerciseState = "active" | "correct" | "incorrect" | "completed";
 
 const exerciseIcons: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -190,13 +62,37 @@ function MultipleChoiceIcon({ className }: { className?: string }) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function mapLesson(raw: any): LessonData {
+  return {
+    id: raw.id,
+    title: raw.title,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    exercises: raw.exercises.map((ex: any) => ({
+      id: ex.id,
+      type: ex.type,
+      question: ex.question,
+      correct_answer: ex.correctAnswer,
+      explanation: ex.explanation,
+      xp_value: ex.xpValue,
+      metadata: ex.metadata ? (typeof ex.metadata === "string" ? JSON.parse(ex.metadata) : ex.metadata) : undefined,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      options: ex.options?.map((o: any) => ({
+        id: o.id,
+        text: o.text,
+        is_correct: o.isCorrect,
+      })),
+    })),
+  };
+}
+
 export default function LessonPage() {
   const params = useParams();
   const router = useRouter();
   const lessonId = params.id as string;
 
-  const initialLesson = lessonDatabase[lessonId] || null;
-  const [lesson] = useState<LessonData | null>(initialLesson);
+  const [lesson, setLesson] = useState<LessonData | null>(null);
+  const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [exerciseState, setExerciseState] = useState<ExerciseState>("active");
   const [selectedAnswer, setSelectedAnswer] = useState("");
@@ -212,6 +108,22 @@ export default function LessonPage() {
   const [reviewIndex, setReviewIndex] = useState(0);
   const [speaking, setSpeaking] = useState(false);
 
+  useEffect(() => {
+    async function fetchLesson() {
+      try {
+        const res = await fetch(`/api/lessons/${lessonId}`);
+        if (!res.ok) throw new Error("Not found");
+        const data = await res.json();
+        setLesson(mapLesson(data.lesson));
+      } catch {
+        setLesson(null);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchLesson();
+  }, [lessonId]);
+
   const speak = (text: string) => {
     if (!("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
@@ -225,10 +137,10 @@ export default function LessonPage() {
   };
 
   const initWordOrder = useCallback(() => {
-    if (initialLesson?.exercises[0]?.type === "word_order" && initialLesson.exercises[0].metadata?.words) {
-      setAvailableWords([...initialLesson.exercises[0].metadata.words].sort(() => Math.random() - 0.5));
+    if (lesson?.exercises[0]?.type === "word_order" && lesson.exercises[0].metadata?.words) {
+      setAvailableWords([...lesson.exercises[0].metadata.words].sort(() => Math.random() - 0.5));
     }
-  }, [initialLesson]);
+  }, [lesson]);
 
   useEffect(() => { initWordOrder(); }, [initWordOrder]);
 
@@ -253,6 +165,14 @@ export default function LessonPage() {
       addLessonXp(lesson.id, totalXp);
     }
   }, [exerciseState, lesson, totalXp]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-cloud dark:bg-slate-950">
+        <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   if (!lesson || !lesson.exercises[currentIndex]) {
     return (
