@@ -7,28 +7,21 @@ import { motion } from "framer-motion";
 import { Flame, Star, Target, ArrowRight, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
-const achievements = [
-  { name: "First Steps", description: "Complete your first lesson", icon: "👣", earned: false },
-  { name: "Word Collector", description: "Learn 10 vocabulary words", icon: "📖", earned: false },
-  { name: "Dedicated Learner", description: "Maintain a 7-day streak", icon: "🔥", earned: false },
-  { name: "Century Club", description: "Earn 1,000 XP", icon: "⭐", earned: false },
-  { name: "Perfect Score", description: "Complete a lesson with 100% accuracy", icon: "🎯", earned: false },
-  { name: "Vocabulary Master", description: "Learn 50 vocabulary words", icon: "🎓", earned: false },
-];
+import { getGamification, type GamificationState } from "@/lib/gamification";
 
 export default function ProfilePage() {
   const router = useRouter();
   const [profile] = useState<{
-    total_xp: number;
-    current_streak: number;
-    longest_streak: number;
     level: string;
     target_language_id: string;
   } | null>(() => {
     if (typeof window === "undefined") return null;
     const stored = localStorage.getItem("luno_profile");
     return stored ? JSON.parse(stored) : null;
+  });
+  const [gamification] = useState<GamificationState>(() => {
+    if (typeof window === "undefined") return { total_xp: 0, current_streak: 0, longest_streak: 0, completed_lessons: [], last_practice_date: null };
+    return getGamification();
   });
 
   const { status } = useSession();
@@ -44,6 +37,15 @@ export default function ProfilePage() {
     profile.level.charAt(0).toUpperCase() + profile.level.slice(1);
   const langName =
     profile.target_language_id === "ru" ? "Russian" : "German";
+
+  const achievements = [
+    { name: "First Steps", description: "Complete your first lesson", icon: "👣", earned: gamification.completed_lessons.length >= 1 },
+    { name: "Word Collector", description: "Learn 10 vocabulary words", icon: "📖", earned: gamification.completed_lessons.length >= 3 },
+    { name: "Dedicated Learner", description: "Maintain a 7-day streak", icon: "🔥", earned: gamification.longest_streak >= 7 },
+    { name: "Century Club", description: "Earn 1,000 XP", icon: "⭐", earned: gamification.total_xp >= 1000 },
+    { name: "Perfect Score", description: "Complete 5 lessons", icon: "🎯", earned: gamification.completed_lessons.length >= 5 },
+    { name: "Vocabulary Master", description: "Complete 10 lessons", icon: "🎓", earned: gamification.completed_lessons.length >= 10 },
+  ];
 
   return (
     <div className="min-h-screen bg-[var(--color-background)]">
@@ -63,7 +65,7 @@ export default function ProfilePage() {
             <div className="flex items-center gap-4 mb-6">
               <div className="h-16 w-16 rounded-2xl bg-[var(--color-primary)]/10 flex items-center justify-center">
                 <span className="text-2xl font-bold text-[var(--color-primary)]">
-                  {profile.total_xp}
+                  {gamification.total_xp}
                 </span>
               </div>
               <div>
@@ -77,22 +79,22 @@ export default function ProfilePage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div className="text-center p-4 rounded-xl bg-[var(--color-surface)]">
                 <Star className="h-5 w-5 text-[var(--color-xp)] mx-auto mb-1" />
-                <p className="text-lg font-bold">{profile.total_xp}</p>
+                <p className="text-lg font-bold">{gamification.total_xp}</p>
                 <p className="text-xs text-[var(--color-muted)]">Total XP</p>
               </div>
               <div className="text-center p-4 rounded-xl bg-[var(--color-surface)]">
                 <Flame className="h-5 w-5 text-[var(--color-streak)] mx-auto mb-1" />
-                <p className="text-lg font-bold">{profile.current_streak}</p>
+                <p className="text-lg font-bold">{gamification.current_streak}</p>
                 <p className="text-xs text-[var(--color-muted)]">Current Streak</p>
               </div>
               <div className="text-center p-4 rounded-xl bg-[var(--color-surface)]">
                 <Calendar className="h-5 w-5 text-purple-500 mx-auto mb-1" />
-                <p className="text-lg font-bold">{profile.longest_streak}</p>
+                <p className="text-lg font-bold">{gamification.longest_streak}</p>
                 <p className="text-xs text-[var(--color-muted)]">Longest Streak</p>
               </div>
               <div className="text-center p-4 rounded-xl bg-[var(--color-surface)]">
                 <Target className="h-5 w-5 text-emerald-500 mx-auto mb-1" />
-                <p className="text-lg font-bold">0</p>
+                <p className="text-lg font-bold">{gamification.completed_lessons.length}</p>
                 <p className="text-xs text-[var(--color-muted)]">Lessons Done</p>
               </div>
             </div>

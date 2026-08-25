@@ -17,6 +17,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { signOut } from "@/lib/auth/client";
 import { useSession } from "next-auth/react";
+import { getGamification, initGamification, type GamificationState } from "@/lib/gamification";
 
 interface UserProfile {
   native_language_id: string;
@@ -99,6 +100,16 @@ export default function DashboardPage() {
     const stored = localStorage.getItem("luno_profile");
     return stored ? JSON.parse(stored) : null;
   });
+  const [gamification, setGamification] = useState<GamificationState>(() => {
+    if (typeof window === "undefined") return { total_xp: 0, current_streak: 0, longest_streak: 0, completed_lessons: [], last_practice_date: null };
+    return initGamification();
+  });
+
+  useEffect(() => {
+    const handleFocus = () => setGamification(initGamification());
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
+  }, []);
 
   const { status } = useSession();
   const loading = status === "loading";
@@ -136,7 +147,8 @@ export default function DashboardPage() {
   };
   const units = unitsByLanguage[profile.target_language_id] || [];
   const allLessons = units.flatMap((u) => u.lessons);
-  const completedCount = allLessons.filter((l) => l.completed).length;
+  const completedLessons = gamification.completed_lessons;
+  const completedCount = allLessons.filter((l) => completedLessons.includes(l.id)).length;
   const totalLessons = allLessons.length;
   const progressPercent = totalLessons > 0 ? (completedCount / totalLessons) * 100 : 0;
 
@@ -168,13 +180,13 @@ export default function DashboardPage() {
             <div className="flex items-center gap-1.5">
               <Flame className="h-4 w-4 text-[var(--color-streak)]" />
               <span className="text-sm font-semibold">
-                {profile.current_streak}
+                {gamification.current_streak}
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <Star className="h-4 w-4 text-[var(--color-xp)]" />
               <span className="text-sm font-semibold">
-                {profile.total_xp} XP
+                {gamification.total_xp} XP
               </span>
             </div>
             <button
@@ -235,7 +247,7 @@ export default function DashboardPage() {
                     <p className="text-sm text-[var(--color-muted)]">
                       Total XP
                     </p>
-                    <p className="text-xl font-bold">{profile.total_xp}</p>
+                    <p className="text-xl font-bold">{gamification.total_xp}</p>
                   </div>
                 </div>
               </div>
@@ -249,7 +261,7 @@ export default function DashboardPage() {
                       Streak
                     </p>
                     <p className="text-xl font-bold">
-                      {profile.current_streak} days
+                      {gamification.current_streak} days
                     </p>
                   </div>
                 </div>
@@ -288,7 +300,9 @@ export default function DashboardPage() {
                     </div>
                   </div>
                   <div className="divide-y divide-[var(--color-border)]">
-                    {unit.lessons.map((lesson) => (
+                    {unit.lessons.map((lesson) => {
+                      const isCompleted = completedLessons.includes(lesson.id);
+                      return (
                       <Link
                         key={lesson.id}
                         href={
@@ -305,12 +319,12 @@ export default function DashboardPage() {
                         <div className="flex items-center gap-3">
                           <div
                             className={`h-8 w-8 rounded-full flex items-center justify-center ${
-                              lesson.completed
+                              isCompleted
                                 ? "bg-emerald-500 text-white"
                                 : "bg-[var(--color-surface)] text-[var(--color-muted)]"
                             }`}
                           >
-                            {lesson.completed ? (
+                            {isCompleted ? (
                               <svg
                                 className="h-4 w-4"
                                 fill="none"
@@ -339,7 +353,8 @@ export default function DashboardPage() {
                         </div>
                         <ChevronRight className="h-4 w-4 text-[var(--color-muted)]" />
                       </Link>
-                    ))}
+                    );
+                    })}
                   </div>
                 </motion.div>
               ))}

@@ -18,6 +18,7 @@ import {
   PenLine,
   ListOrdered,
 } from "lucide-react";
+import { addLessonXp } from "@/lib/gamification";
 
 interface ExerciseOption {
   id: string;
@@ -245,6 +246,12 @@ export default function LessonPage() {
     setSelectedAnswer("");
     setShowHint(false);
   }, [currentIndex, reviewIndex, isReview]);
+
+  useEffect(() => {
+    if (exerciseState === "completed" && lesson && totalXp > 0) {
+      addLessonXp(lesson.id, totalXp);
+    }
+  }, [exerciseState, lesson, totalXp]);
 
   if (!lesson || !lesson.exercises[currentIndex]) {
     return (

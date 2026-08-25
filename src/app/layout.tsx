@@ -36,6 +36,9 @@ export const metadata: Metadata = {
     "gamification",
     "spaced repetition",
   ],
+  icons: {
+    icon: "/favicon.svg",
+  },
   openGraph: {
     title: "LUNO - Learn Languages Through Practice",
     description:
