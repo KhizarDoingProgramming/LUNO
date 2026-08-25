@@ -1,24 +1,45 @@
 import type { Metadata } from "next";
-import { Providers } from "@/components/providers";
+import { Space_Grotesk, Outfit, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { Providers } from "@/components/providers";
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+  weight: ["400", "500"],
+});
 
 export const metadata: Metadata = {
-  title: "LUNO — Learn Languages Through Practice",
+  title: "LUNO - Learn Languages Through Practice",
   description:
-    "LUNO helps you learn Russian and German through short, interactive lessons, vocabulary practice, and real conversations. Build streaks, earn XP, and track your progress.",
+    "Master Russian and German through interactive lessons, spaced repetition, and gamified learning. Start your language journey today.",
   keywords: [
     "language learning",
     "Russian",
     "German",
-    "gamified learning",
-    "vocabulary",
-    "pronunciation",
     "interactive lessons",
+    "gamification",
+    "spaced repetition",
   ],
   openGraph: {
-    title: "LUNO — Learn Languages Through Practice",
+    title: "LUNO - Learn Languages Through Practice",
     description:
-      "Master Russian and German with interactive lessons, vocabulary practice, and AI-powered conversations.",
+      "Master Russian and German through interactive lessons and gamified learning.",
     type: "website",
     siteName: "LUNO",
   },
@@ -26,23 +47,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html
+      lang="en"
+      className={`${spaceGrotesk.variable} ${outfit.variable} ${jetbrainsMono.variable}`}
+    >
       <body className="min-h-screen antialiased">
         <Providers>{children}</Providers>
       </body>
