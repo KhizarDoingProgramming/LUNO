@@ -53,6 +53,18 @@
 
   html.dark {
     color-scheme: dark;
+    --color-surface: #1e293b;
+    --color-card: #1e293b;
+    --color-background: #0f172a;
+    --color-text: #e2e8f0;
+    --color-text-light: #94a3b8;
+    --color-muted: #94a3b8;
+    --color-border: rgba(255, 255, 255, 0.1);
+    --color-navy: #e2e8f0;
+    --color-navy-light: #334155;
+    --color-cloud: #0f172a;
+    --color-cloud-dark: #1e293b;
+    --color-secondary: #1e293b;
   }
 
   html.dark body {

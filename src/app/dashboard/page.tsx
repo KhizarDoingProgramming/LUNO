@@ -240,7 +240,7 @@ export default function DashboardPage() {
             <div className="space-y-4">
               <div className="bg-[var(--color-card)] rounded-2xl border border-[var(--color-border)] p-5">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="h-10 w-10 rounded-xl bg-amber-50 flex items-center justify-center">
+                  <div className="h-10 w-10 rounded-xl bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center">
                     <Star className="h-5 w-5 text-amber-500" />
                   </div>
                   <div>
@@ -253,7 +253,7 @@ export default function DashboardPage() {
               </div>
               <div className="bg-[var(--color-card)] rounded-2xl border border-[var(--color-border)] p-5">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="h-10 w-10 rounded-xl bg-red-50 flex items-center justify-center">
+                  <div className="h-10 w-10 rounded-xl bg-red-50 dark:bg-red-900/30 flex items-center justify-center">
                     <Flame className="h-5 w-5 text-red-500" />
                   </div>
                   <div>

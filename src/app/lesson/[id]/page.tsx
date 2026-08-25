@@ -347,7 +347,7 @@ export default function LessonPage() {
               </div>
             </div>
 
-            <div className="flex items-center justify-center gap-2 mb-6 text-sm text-muted">
+            <div className="flex items-center justify-center gap-2 mb-6 text-sm text-muted dark:text-slate-400">
               <Flame className="h-4 w-4 text-streak" /> Streak maintained!
               <Star className="h-4 w-4 text-xp ml-2" /> +{totalXp} XP
             </div>
@@ -460,7 +460,7 @@ export default function LessonPage() {
                   <button onClick={() => setShowHint(true)} className="mt-2 text-sm text-primary hover:underline">Need a hint?</button>
                 )}
                 {showHint && (
-                  <p className="mt-2 text-sm text-muted">Hint: The answer starts with &ldquo;{currentExercise.correct_answer[0]}&rdquo;</p>
+                  <p className="mt-2 text-sm text-muted dark:text-slate-400">Hint: The answer starts with &ldquo;{currentExercise.correct_answer[0]}&rdquo;</p>
                 )}
               </div>
             )}
@@ -508,7 +508,7 @@ export default function LessonPage() {
             )}
 
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm text-muted">
+              <div className="flex items-center gap-2 text-sm text-muted dark:text-slate-400">
                 <Star className="h-4 w-4 text-xp" /> {currentExercise.xp_value} XP
               </div>
               {exerciseState === "active" ? (

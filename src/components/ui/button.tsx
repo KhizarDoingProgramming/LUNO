@@ -11,11 +11,11 @@ const buttonVariants = cva(
         default:
           "bg-primary text-white hover:bg-primary-dark focus-visible:ring-primary shadow-sm hover:shadow-md hover:-translate-y-0.5",
         secondary:
-          "bg-secondary text-text hover:bg-secondary/80 focus-visible:ring-primary",
+          "bg-secondary text-text dark:bg-slate-700 dark:text-slate-200 hover:bg-secondary/80 dark:hover:bg-slate-600 focus-visible:ring-primary",
         outline:
-          "border-2 border-border bg-transparent text-text hover:bg-surface focus-visible:ring-primary",
+          "border-2 border-border bg-transparent text-text dark:text-slate-200 hover:bg-surface dark:hover:bg-slate-800 focus-visible:ring-primary",
         ghost:
-          "text-text hover:bg-surface focus-visible:ring-primary",
+          "text-text dark:text-slate-200 hover:bg-surface dark:hover:bg-slate-800 focus-visible:ring-primary",
         danger:
           "bg-danger text-white hover:bg-danger/90 focus-visible:ring-danger",
         success:

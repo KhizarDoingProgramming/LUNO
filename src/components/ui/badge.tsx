@@ -20,9 +20,9 @@ export function Badge({
             variant === "default",
           "bg-[var(--color-surface)] text-[var(--color-muted)]":
             variant === "secondary",
-          "bg-emerald-50 text-emerald-700": variant === "success",
-          "bg-amber-50 text-amber-700": variant === "warning",
-          "bg-red-50 text-red-700": variant === "danger",
+          "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300": variant === "success",
+          "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300": variant === "warning",
+          "bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-300": variant === "danger",
         },
         className
       )}
