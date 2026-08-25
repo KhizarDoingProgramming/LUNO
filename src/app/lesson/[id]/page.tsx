@@ -205,6 +205,22 @@ export default function LessonPage() {
   const [totalXp, setTotalXp] = useState(0);
   const [answers, setAnswers] = useState<Array<{ exerciseId: string; correct: boolean; xp: number }>>([]);
   const [showHint, setShowHint] = useState(false);
+  const [isReview, setIsReview] = useState(false);
+  const [failedExercises, setFailedExercises] = useState<Exercise[]>([]);
+  const [reviewIndex, setReviewIndex] = useState(0);
+  const [speaking, setSpeaking] = useState(false);
+
+  const speak = (text: string) => {
+    if (!("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = text.match(/[а-яА-ЯёЁ]/) ? "ru-RU" : "de-DE";
+    utterance.rate = 0.85;
+    utterance.onstart = () => setSpeaking(true);
+    utterance.onend = () => setSpeaking(false);
+    utterance.onerror = () => setSpeaking(false);
+    window.speechSynthesis.speak(utterance);
+  };
 
   const initWordOrder = useCallback(() => {
     if (initialLesson?.exercises[0]?.type === "word_order" && initialLesson.exercises[0].metadata?.words) {
@@ -215,17 +231,20 @@ export default function LessonPage() {
   useEffect(() => { initWordOrder(); }, [initWordOrder]);
 
   useEffect(() => {
-    if (lesson?.exercises[currentIndex]?.type === "word_order" && lesson.exercises[currentIndex].metadata?.words) {
+    const exs = isReview ? failedExercises : lesson?.exercises || [];
+    const idx = isReview ? reviewIndex : currentIndex;
+    const ex = exs[idx];
+    if (ex?.type === "word_order" && ex.metadata?.words) {
       setWordOrder([]);
-      setAvailableWords([...lesson.exercises[currentIndex].metadata!.words!].sort(() => Math.random() - 0.5));
+      setAvailableWords([...ex.metadata.words].sort(() => Math.random() - 0.5));
     }
-  }, [currentIndex, lesson]);
+  }, [currentIndex, reviewIndex, isReview, failedExercises, lesson]);
 
   useEffect(() => {
     setTextInput("");
     setSelectedAnswer("");
     setShowHint(false);
-  }, [currentIndex]);
+  }, [currentIndex, reviewIndex, isReview]);
 
   if (!lesson || !lesson.exercises[currentIndex]) {
     return (
@@ -238,8 +257,12 @@ export default function LessonPage() {
     );
   }
 
-  const currentExercise = lesson.exercises[currentIndex];
-  const progress = ((currentIndex) / lesson.exercises.length) * 100;
+  const activeExercises = isReview ? failedExercises : lesson.exercises;
+  const activeIndex = isReview ? reviewIndex : currentIndex;
+  const currentExercise = activeExercises[activeIndex];
+  const totalForProgress = isReview ? lesson.exercises.length + failedExercises.length : lesson.exercises.length;
+  const progressIndex = isReview ? lesson.exercises.length + reviewIndex : currentIndex;
+  const progress = (progressIndex / totalForProgress) * 100;
   const Icon = exerciseIcons[currentExercise.type] || MultipleChoiceIcon;
 
   const checkAnswer = () => {
@@ -263,8 +286,27 @@ export default function LessonPage() {
   };
 
   const nextExercise = () => {
+    if (isReview) {
+      if (reviewIndex < failedExercises.length - 1) {
+        setReviewIndex(reviewIndex + 1);
+        setExerciseState("active");
+      } else {
+        setExerciseState("completed");
+      }
+      return;
+    }
     if (currentIndex < lesson.exercises.length - 1) { setCurrentIndex(currentIndex + 1); setExerciseState("active"); }
-    else { setExerciseState("completed"); }
+    else {
+      const failed = answers.filter((a) => !a.correct).map((a) => lesson.exercises.find((e) => e.id === a.exerciseId)!).filter(Boolean);
+      if (failed.length > 0) {
+        setFailedExercises(failed);
+        setIsReview(true);
+        setReviewIndex(0);
+        setExerciseState("active");
+      } else {
+        setExerciseState("completed");
+      }
+    }
   };
 
   const addWord = (word: string) => { setAvailableWords(availableWords.filter((w) => w !== word)); setWordOrder([...wordOrder, word]); };
@@ -305,7 +347,7 @@ export default function LessonPage() {
 
             <div className="space-y-3">
               <button className="btn-primary w-full" onClick={() => router.push("/dashboard")}>Continue <ArrowRight className="h-5 w-5 ml-2" /></button>
-              <button className="btn-secondary w-full" onClick={() => { setCurrentIndex(0); setScore(0); setTotalXp(0); setAnswers([]); setExerciseState("active"); }}>
+              <button className="btn-secondary w-full" onClick={() => { setCurrentIndex(0); setScore(0); setTotalXp(0); setAnswers([]); setExerciseState("active"); setIsReview(false); setFailedExercises([]); setReviewIndex(0); }}>
                 <RotateCcw className="h-4 w-4 mr-2" /> Practice again
               </button>
             </div>
@@ -327,11 +369,24 @@ export default function LessonPage() {
               <motion.div className="h-full bg-gradient-to-r from-primary to-primary-light rounded-full" animate={{ width: `${progress}%` }} transition={{ duration: 0.3 }} />
             </div>
           </div>
-          <span className="text-sm font-semibold text-navy">{currentIndex + 1}/{lesson.exercises.length}</span>
+          <span className="text-sm font-semibold text-navy">
+            {isReview && <span className="text-primary mr-1">Review:</span>}
+            {activeIndex + 1}/{activeExercises.length}
+          </span>
         </div>
       </header>
 
       <main className="mx-auto max-w-3xl px-6 py-8 md:py-12">
+        {isReview && (
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+            className="mb-6 p-4 rounded-xl bg-primary/10 border border-primary/20 flex items-center gap-3">
+            <RotateCcw className="w-5 h-5 text-primary flex-shrink-0" />
+            <div>
+              <p className="font-semibold text-navy text-sm">Review Round</p>
+              <p className="text-xs text-muted">Let&apos;s practice the ones you missed. You got this!</p>
+            </div>
+          </motion.div>
+        )}
         <AnimatePresence mode="wait">
           <motion.div key={currentIndex} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
 
@@ -341,7 +396,7 @@ export default function LessonPage() {
               </div>
               <div>
                 <div className="text-xs font-semibold text-primary uppercase tracking-wider">
-                  {currentExercise.type.replace("_", " ")}
+                  {isReview ? "Review" : currentExercise.type.replace("_", " ")}
                 </div>
                 <div className="text-xs text-muted">+{currentExercise.xp_value} XP</div>
               </div>
@@ -379,8 +434,11 @@ export default function LessonPage() {
             {(currentExercise.type === "translation" || currentExercise.type === "fill_blank" || currentExercise.type === "listening") && (
               <div className="mb-8">
                 {currentExercise.type === "listening" && (
-                  <button className="mb-4 flex items-center gap-2 px-4 py-3 rounded-xl bg-primary/10 text-primary font-semibold hover:bg-primary/15 transition-colors">
-                    <Volume2 className="w-5 h-5" /> Play Audio
+                  <button onClick={() => speak(currentExercise.correct_answer)}
+                    className={`mb-4 flex items-center gap-2 px-4 py-3 rounded-xl font-semibold transition-colors ${
+                      speaking ? "bg-primary text-white animate-pulse" : "bg-primary/10 text-primary hover:bg-primary/15"
+                    }`}>
+                    <Volume2 className="w-5 h-5" /> {speaking ? "Speaking..." : "Play Audio"}
                   </button>
                 )}
                 <input type="text" value={textInput} onChange={(e) => setTextInput(e.target.value)}
@@ -456,7 +514,10 @@ export default function LessonPage() {
                 </button>
               ) : (
                 <button onClick={nextExercise} className="btn-primary">
-                  {currentIndex < lesson.exercises.length - 1 ? "Continue" : "Finish"} <ArrowRight className="h-5 w-5 ml-2" />
+                  {isReview
+                    ? reviewIndex < failedExercises.length - 1 ? "Continue" : "Finish"
+                    : currentIndex < lesson.exercises.length - 1 ? "Continue" : "Finish"
+                  } <ArrowRight className="h-5 w-5 ml-2" />
                 </button>
               )}
             </div>
